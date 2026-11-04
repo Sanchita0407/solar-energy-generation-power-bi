@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "solar plant data"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "b97867c4-1fc2-43ef-b19a-bd41b0108592"
+  }
+}

@@ -1,0 +1,15 @@
+relationship 4453bfc0-4a80-4337-a58d-a05f2980aea1
+	joinOnDateBehavior: datePartOnly
+	fromColumn: SolarData.DATE_TIME
+	toColumn: LocalDateTable_f00cf523-89ec-453d-889c-989e4c86cb23.Date
+
+relationship 4f709464-a3fd-4aa9-8346-52e8b4da533a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: SolarData.Date
+	toColumn: LocalDateTable_410b096e-a56a-432a-a076-335b42b2bb5f.Date
+
+relationship 22e96fe9-1a11-45d4-88e0-c4226064443d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: SolarData.'Week Start'
+	toColumn: LocalDateTable_f1c05852-d6c6-4f37-9ca4-d92ec33a522c.Date
+

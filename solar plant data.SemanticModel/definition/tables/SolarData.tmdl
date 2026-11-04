@@ -1,0 +1,282 @@
+table SolarData
+	lineageTag: 7c5c2dca-cbbf-4082-a631-4d9a21bfb4a9
+
+	measure 'Total Plants' =
+			
+			DISTINCTCOUNT(SolarData[PLANT_ID])
+		formatString: 0
+		lineageTag: 6c40c20d-380d-484f-aaba-821414dc385c
+
+	measure 'Average AC Power' =
+			
+			AVERAGE(SolarData[AC_POWER])
+		lineageTag: 4aef408a-a75c-4963-ad15-507ba5fe7336
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Average Daily Yield' =
+			
+			AVERAGE(SolarData[DAILY_YIELD])
+		lineageTag: 286335af-d7e5-48e8-8c67-210ceafbe621
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected AC Power' = ```
+			
+			IF(
+			    HASONEVALUE(SolarData[DATE_TIME]),
+			    AVERAGE(SolarData[AC_POWER]),
+			    BLANK()
+			)
+			
+			```
+		lineageTag: aa364610-849f-4aa0-af28-80e0dbce4e36
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected Daily Yield' = ```
+			
+			IF(
+			    HASONEVALUE(SolarData[Date]),
+			    AVERAGE(SolarData[DAILY_YIELD]),
+			    BLANK()
+			)
+			
+			```
+		lineageTag: 79b76d6a-0638-4054-8b6a-02b4469e62d6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Weekly Selected Yield' = ```
+			
+			IF(
+			    HASONEVALUE(SolarData[Week Start]),
+			    AVERAGE(SolarData[DAILY_YIELD]),
+			    BLANK()
+			)
+			
+			```
+		lineageTag: 36f31804-7e40-4a75-bc26-d9607056f8b0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Monthly Selected Yield' =
+			
+			IF(
+			    HASONEVALUE(SolarData[Date]),
+			    AVERAGE(SolarData[DAILY_YIELD]),
+			    BLANK()
+			)
+		lineageTag: d3e72243-c926-4a41-ad07-45ba7c89ab27
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Hourly Selected Yield' =
+			
+			IF(
+			    HASONEVALUE(SolarData[Hour]),
+			    AVERAGE(SolarData[DAILY_YIELD]),
+			    BLANK()
+			)
+		lineageTag: b85753c7-d95a-44d7-aa3a-7d0407a26f61
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AC to DC Power Ratio (%)' = ```
+			
+			DIVIDE(
+			    SUM(SolarData[AC_POWER]),
+			    SUM(SolarData[DC_POWER]),
+			    0
+			) * 100
+			
+			```
+		lineageTag: 0408b104-72e3-46a0-9570-60d21e345cdd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Missing Date Records' =
+			
+			COUNTROWS(
+			    FILTER(
+			        SolarData,
+			        ISBLANK(SolarData[DATE_TIME])
+			    )
+			)
+		formatString: 0
+		lineageTag: 436b8416-e052-4e09-b1c4-4cc8f71ce198
+
+	measure 'Duplicate Records' =
+			
+			COUNTROWS(SolarData) -
+			COUNTROWS(
+			    DISTINCT(SolarData)
+			)
+		formatString: 0
+		lineageTag: 0a8a2bf5-efaf-432d-ba5c-61b02e237cc0
+
+	measure 'Zero DC Power Records' =
+			
+			COUNTROWS(
+			    FILTER(
+			        SolarData,
+			        SolarData[DC_POWER] = 0
+			    )
+			)
+		formatString: 0
+		lineageTag: 949e6ed5-fade-4ead-b1cd-49774ad71bbe
+
+	column DATE_TIME
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 526b5a9b-b819-401f-a09c-4c39ae731e60
+		summarizeBy: none
+		sourceColumn: DATE_TIME
+
+		variation Variation
+			isDefault
+			relationship: 4453bfc0-4a80-4337-a58d-a05f2980aea1
+			defaultHierarchy: LocalDateTable_f00cf523-89ec-453d-889c-989e4c86cb23.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column PLANT_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 2248c440-fdf9-4ce0-b41a-07ea62bbfbc4
+		summarizeBy: count
+		sourceColumn: PLANT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SOURCE_KEY
+		dataType: string
+		lineageTag: 78101172-4933-4af2-8772-76187211c623
+		summarizeBy: none
+		sourceColumn: SOURCE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column DC_POWER
+		dataType: double
+		formatString: 0
+		lineageTag: c55e8c68-275b-4c78-a400-fefe0c522d62
+		summarizeBy: sum
+		sourceColumn: DC_POWER
+
+		annotation SummarizationSetBy = Automatic
+
+	column AC_POWER
+		dataType: double
+		formatString: 0
+		lineageTag: a948cf03-e1f1-49ce-b63c-fabcb80144c9
+		summarizeBy: sum
+		sourceColumn: AC_POWER
+
+		annotation SummarizationSetBy = Automatic
+
+	column DAILY_YIELD
+		dataType: double
+		formatString: 0
+		lineageTag: 3d77b016-ce84-4ae1-bb8d-d6ca28651294
+		summarizeBy: sum
+		sourceColumn: DAILY_YIELD
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_YIELD
+		dataType: double
+		formatString: 0
+		lineageTag: cb2e2fdd-69f9-4a74-99c1-bc5b991f4617
+		summarizeBy: sum
+		sourceColumn: TOTAL_YIELD
+
+		annotation SummarizationSetBy = Automatic
+
+	column Hour = ```
+			HOUR(SolarData[DATE_TIME])
+			
+			```
+		formatString: 0
+		lineageTag: 0b89e2f6-7868-4157-b59c-7a3ec1578ff4
+		summarizeBy: sum
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date = ```
+			
+			DATE(
+			    YEAR(SolarData[DATE_TIME]),
+			    MONTH(SolarData[DATE_TIME]),
+			    DAY(SolarData[DATE_TIME])
+			)
+			
+			```
+		formatString: General Date
+		lineageTag: c9fab36b-3b2b-455e-abc1-6807b40c4603
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 4f709464-a3fd-4aa9-8346-52e8b4da533a
+			defaultHierarchy: LocalDateTable_410b096e-a56a-432a-a076-335b42b2bb5f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Start' = ```
+			
+			SolarData[Date] - WEEKDAY(SolarData[Date], 2) + 1
+			
+			```
+		formatString: General Date
+		lineageTag: f65e8f4f-8ad9-4e59-aa55-3e3232e3d6b5
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 22e96fe9-1a11-45d4-88e0-c4226064443d
+			defaultHierarchy: LocalDateTable_f1c05852-d6c6-4f37-9ca4-d92ec33a522c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column
+		type: calculated
+		lineageTag: a604d459-9d56-4614-af16-891fbf39775b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	partition SolarData = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(
+				        File.Contents("C:\Users\indra\Downloads\archive\SolarData_Cleaned.csv"),
+				        [Delimiter = ",", Columns = 7, Encoding = 65001, QuoteStyle = QuoteStyle.Csv]
+				    ),
+				    #"Promoted Headers" = Table.PromoteHeaders(
+				        Source,
+				        [PromoteAllScalars = true]
+				    ),
+				    #"Changed Type" = Table.TransformColumnTypes(
+				        #"Promoted Headers",
+				        {
+				            {"DATE_TIME", type datetime},
+				            {"PLANT_ID", Int64.Type},
+				            {"SOURCE_KEY", type text},
+				            {"DC_POWER", type number},
+				            {"AC_POWER", type number},
+				            {"DAILY_YIELD", type number},
+				            {"TOTAL_YIELD", type number}
+				        },
+				        "en-US"
+				    )
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

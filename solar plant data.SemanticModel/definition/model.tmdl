@@ -1,0 +1,23 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["SolarData"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table DateTableTemplate_20abf985-aa53-49e4-9f3a-700b2169cd06
+ref table SolarData
+ref table LocalDateTable_f00cf523-89ec-453d-889c-989e4c86cb23
+ref table LocalDateTable_410b096e-a56a-432a-a076-335b42b2bb5f
+ref table LocalDateTable_f1c05852-d6c6-4f37-9ca4-d92ec33a522c
+
+ref cultureInfo en-US
+
